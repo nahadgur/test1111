@@ -28,7 +28,7 @@ export default function Home() {
           </div>
 
           <div className="profile-card page-width" data-reveal>
-            <Image className="profile-photo" src="/assets/noel-profile.png" alt="Noel N. Cobangbang" width={512} height={512} priority />
+            <Image className="profile-photo" src="/assets/noel-profile-blurred.webp" alt="Noel N. Cobangbang" width={512} height={512} priority />
             <div className="profile-copy">
               <p className="role">AYS Neopreneur</p>
               <h1>Noel N. Cobangbang</h1>
