@@ -11,11 +11,11 @@
 
 /* Keep the people in the cover visible instead of hiding their faces behind the profile card. */
 .cover-photo {
-  height: clamp(540px, 42vw, 660px);
+  height: clamp(390px, 32vw, 500px);
 }
 
 .cover-photo img {
-  object-position: center 72%;
+  object-position: center 85%;
   animation: cover-arrive 900ms var(--ease-out) both;
   transform-origin: center 48%;
 }
@@ -259,7 +259,7 @@ details[open] > div {
 }
 
 @media (max-width: 900px) {
-  .cover-photo { height: 440px; }
+  .cover-photo { height: 360px; }
   .profile-card { margin-top: 0; }
 
   .news-grid {
@@ -269,7 +269,7 @@ details[open] > div {
 }
 
 @media (max-width: 620px) {
-  .cover-photo { height: 300px; }
+  .cover-photo { height: 285px; }
   .cover-photo img { object-position: 46% 60%; }
   .profile-card { margin-top: 0; }
 
