@@ -98,6 +98,112 @@
   height: auto;
 }
 
+/* Compact editorial treatment for recent work. */
+.news-rail-note {
+  display: none;
+}
+
+.news.section {
+  padding-block: 5rem;
+}
+
+.news-grid {
+  grid-template-columns: minmax(0, 1.16fr) minmax(340px, .84fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  min-height: 620px;
+  border-block: 1px solid var(--line);
+}
+
+.news-grid article {
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: white;
+}
+
+.news-grid article:first-child {
+  grid-row: 1 / 4;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+.news-grid article:not(:first-child) {
+  display: grid;
+  grid-template-columns: minmax(145px, 42%) minmax(0, 1fr);
+}
+
+.news-grid article:last-child {
+  border-bottom: 0;
+}
+
+.news-image {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.news-grid article:first-child .news-image img,
+.news-grid article:not(:first-child) .news-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-grid article:first-child .news-image img {
+  scale: 1.5;
+  transform-origin: left center;
+}
+
+.news-grid article:first-child > div {
+  padding: 1.25rem 1.4rem 1.45rem;
+}
+
+.news-grid article:not(:first-child) > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.2rem;
+}
+
+.news-grid article p {
+  margin-top: 0;
+}
+
+.news-grid article:first-child h3 {
+  max-width: 28ch;
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+}
+
+.news-grid article:not(:first-child) h3 {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+}
+
+.news-grid article:hover {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 16px 32px rgba(11, 43, 78, .12);
+}
+
+.news .endorsements {
+  grid-template-columns: .85fr 1.15fr;
+  max-height: 280px;
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+.news .endorsements img {
+  height: 280px;
+  max-height: none;
+}
+
+.news .endorsements figcaption {
+  padding: 2rem;
+}
+
 .office-photos figure:hover img,
 .news-grid article:hover img,
 .endorsements:hover img {
@@ -155,12 +261,105 @@ details[open] > div {
 @media (max-width: 900px) {
   .cover-photo { height: 360px; }
   .profile-card { margin-top: -42px; }
+
+  .news-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
+    min-height: 560px;
+  }
 }
 
 @media (max-width: 620px) {
   .cover-photo { height: 285px; }
   .cover-photo img { object-position: 46% 50%; }
   .profile-card { margin-top: -28px; }
+
+  .news.section {
+    padding-block: 4rem;
+  }
+
+  .news .section-heading {
+    margin-bottom: 1rem;
+  }
+
+  .news-rail-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 .85rem;
+    color: var(--muted);
+    font-size: .82rem;
+  }
+
+  .news-rail-note span {
+    color: var(--red);
+    font-size: 1.15rem;
+  }
+
+  .news-grid {
+    display: flex;
+    min-height: 0;
+    gap: .85rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--red) #e8ebee;
+    border: 0;
+    padding: 0 0 1rem;
+  }
+
+  .news-grid article,
+  .news-grid article:first-child,
+  .news-grid article:not(:first-child) {
+    flex: 0 0 84%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 230px auto;
+    scroll-snap-align: start;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .news-grid article:first-child > div,
+  .news-grid article:not(:first-child) > div {
+    display: block;
+    padding: 1rem 1.05rem 1.15rem;
+  }
+
+  .news-grid article:first-child h3,
+  .news-grid article:not(:first-child) h3 {
+    font-size: 1.15rem;
+  }
+
+  .news-grid article:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .news .endorsements {
+    grid-template-columns: 104px minmax(0, 1fr);
+    min-height: 132px;
+    max-height: none;
+    margin-top: 1.25rem;
+  }
+
+  .news .endorsements img {
+    width: 100%;
+    height: 100%;
+    min-height: 132px;
+  }
+
+  .news .endorsements figcaption {
+    padding: 1rem;
+  }
+
+  .news .endorsements strong {
+    font-size: 1.25rem;
+  }
+
+  .news .endorsements span {
+    font-size: .82rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

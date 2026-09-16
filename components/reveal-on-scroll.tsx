@@ -23,7 +23,14 @@ export function RevealOnScroll() {
       { rootMargin: "0px 0px -10%", threshold: 0.12 },
     );
 
-    items.forEach((item) => observer.observe(item));
+    items.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.96 && rect.bottom > 0) {
+        item.classList.add("is-visible");
+      } else {
+        observer.observe(item);
+      }
+    });
     return () => observer.disconnect();
   }, []);
 

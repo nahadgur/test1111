@@ -83,26 +83,27 @@ export default function Home() {
 
         <section className="news page-width section" id="news">
           <div className="section-heading" data-reveal>
-            <div><p className="section-label">Recent work</p><h2>Partnerships and public events</h2></div>
-            <p>AYS works with government offices and training organizations across the Philippines.</p>
+            <div><p className="section-label">Recent work</p><h2>Partnerships in action</h2></div>
+            <p>Four moments from AYS partnerships, skills training, and national media.</p>
           </div>
 
+          <p className="news-rail-note" aria-hidden="true">Swipe or scroll through the updates <span>→</span></p>
           <div className="news-grid">
             <article data-reveal>
-              <Image src="/assets/tesda-ncr.webp" alt="AYS partnership event with TESDA NCR" width={1600} height={900} />
-              <div><p>TESDA NCR</p><h3>AYS and TESDA NCR work together on skills and livelihood opportunities.</h3></div>
+              <div className="news-image"><Image src="/assets/tesda-ncr.webp" alt="AYS partnership event with TESDA NCR" width={1600} height={900} /></div>
+              <div><p>TESDA NCR</p><h3>AYS partners with TESDA NCR on skills and livelihood opportunities.</h3></div>
             </article>
             <article data-reveal style={{ "--reveal-delay": "70ms" } as React.CSSProperties}>
-              <Image src="/assets/ormoc-moa.webp" alt="AYS and Ormoc City memorandum of agreement" width={1600} height={900} />
-              <div><p>Ormoc City</p><h3>AYS signs a memorandum of agreement with the city government.</h3></div>
+              <div className="news-image"><Image src="/assets/ormoc-moa.webp" alt="AYS and Ormoc City memorandum of agreement" width={1600} height={900} /></div>
+              <div><p>Ormoc City</p><h3>A new partnership with the city government.</h3></div>
             </article>
             <article data-reveal style={{ "--reveal-delay": "140ms" } as React.CSSProperties}>
-              <Image src="/assets/tesda-davao.webp" alt="AYS and TESDA Davao Region memorandum of agreement" width={1600} height={900} />
-              <div><p>TESDA Davao Region</p><h3>AYS expands its training partnership in Mindanao.</h3></div>
+              <div className="news-image"><Image src="/assets/tesda-davao.webp" alt="AYS and TESDA Davao Region memorandum of agreement" width={1600} height={900} /></div>
+              <div><p>TESDA Davao Region</p><h3>Skills training expands in Mindanao.</h3></div>
             </article>
             <article data-reveal style={{ "--reveal-delay": "210ms" } as React.CSSProperties}>
-              <Image src="/assets/gma7-feature.webp" alt="AYS featured on GMA7" width={1600} height={900} />
-              <div><p>GMA7</p><h3>National television feature on AYS and its services.</h3></div>
+              <div className="news-image"><Image src="/assets/gma7-feature.webp" alt="AYS featured on GMA7" width={1600} height={900} /></div>
+              <div><p>GMA7</p><h3>AYS and its services featured on national television.</h3></div>
             </article>
           </div>
 
