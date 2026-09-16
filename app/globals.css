@@ -11,17 +11,17 @@
 
 /* Keep the people in the cover visible instead of hiding their faces behind the profile card. */
 .cover-photo {
-  height: clamp(390px, 32vw, 500px);
+  height: clamp(540px, 42vw, 660px);
 }
 
 .cover-photo img {
-  object-position: center 48%;
+  object-position: center 72%;
   animation: cover-arrive 900ms var(--ease-out) both;
   transform-origin: center 48%;
 }
 
 .profile-card {
-  margin-top: -54px;
+  margin-top: 0;
 }
 
 /* Page motion: short, quiet transitions that preserve the editorial feel. */
@@ -259,8 +259,8 @@ details[open] > div {
 }
 
 @media (max-width: 900px) {
-  .cover-photo { height: 360px; }
-  .profile-card { margin-top: -42px; }
+  .cover-photo { height: 440px; }
+  .profile-card { margin-top: 0; }
 
   .news-grid {
     grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
@@ -269,9 +269,9 @@ details[open] > div {
 }
 
 @media (max-width: 620px) {
-  .cover-photo { height: 285px; }
-  .cover-photo img { object-position: 46% 50%; }
-  .profile-card { margin-top: -28px; }
+  .cover-photo { height: 300px; }
+  .cover-photo img { object-position: 46% 60%; }
+  .profile-card { margin-top: 0; }
 
   .news.section {
     padding-block: 4rem;
