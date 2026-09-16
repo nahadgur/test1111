@@ -1,0 +1,6 @@
+@import "../dist/styles.css";
+
+:root {
+  --sans: var(--font-dm-sans), Arial, sans-serif;
+  --serif: var(--font-source-serif), Georgia, serif;
+}

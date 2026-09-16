@@ -1,3 +1,8 @@
 .sites-runtime/
+.next/
+node_modules/
+out/
+.vercel/
+.env*.local
 .DS_Store
 Thumbs.db

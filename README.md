@@ -1,20 +1,21 @@
 # Noel N. Cobangbang
 
-Local redesign of Noel N. Cobangbang's AYS Neopreneur profile.
+Next.js profile site for Noel N. Cobangbang, an AYS Neopreneur.
 
-## Preview
-
-Serve the `dist` directory with any static web server. For example:
+## Local development
 
 ```powershell
-python -m http.server 4173 -d dist
+npm install
+npm run dev
 ```
 
-Then open `http://127.0.0.1:4173/`.
+Open `http://localhost:3000`.
 
-## Structure
+## Production
 
-- `dist/index.html` — page content
-- `dist/styles.css` — responsive styling
-- `dist/script.js` — video playlist, contact download, and appointment preview
-- `dist/assets/` — optimized images
+```powershell
+npm run build
+npm start
+```
+
+The repository uses the Next.js App Router and is ready to import into Vercel.
