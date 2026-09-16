@@ -3,4 +3,191 @@
 :root {
   --sans: var(--font-dm-sans), Arial, sans-serif;
   --serif: var(--font-source-serif), Georgia, serif;
+  --motion-fast: 180ms;
+  --motion-base: 280ms;
+  --motion-slow: 520ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Keep the people in the cover visible instead of hiding their faces behind the profile card. */
+.cover-photo {
+  height: clamp(390px, 32vw, 500px);
+}
+
+.cover-photo img {
+  object-position: center 48%;
+  animation: cover-arrive 900ms var(--ease-out) both;
+  transform-origin: center 48%;
+}
+
+.profile-card {
+  margin-top: -54px;
+}
+
+/* Page motion: short, quiet transitions that preserve the editorial feel. */
+[data-reveal] {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--motion-slow) var(--ease-out) var(--reveal-delay),
+    transform var(--motion-slow) var(--ease-out) var(--reveal-delay);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site-header {
+  animation: header-arrive 500ms var(--ease-out) both;
+}
+
+.site-header a,
+.button,
+.text-button,
+.contact-links a,
+.contact-links button,
+.video-controls button,
+.video-item,
+.app-link a {
+  transition:
+    color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease,
+    transform var(--motion-fast) var(--ease-out);
+}
+
+.button:hover,
+.text-button:hover,
+.contact-links a:hover,
+.contact-links button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(7, 29, 52, .14);
+}
+
+.button:active,
+.text-button:active,
+.contact-links a:active,
+.contact-links button:active,
+.video-controls button:active,
+.video-item:active {
+  transform: translateY(0) scale(.98);
+}
+
+.office-photos figure,
+.news-grid article,
+.endorsements {
+  transition: transform var(--motion-base) var(--ease-out), box-shadow var(--motion-base) ease;
+}
+
+.office-photos figure:hover,
+.news-grid article:hover,
+.endorsements:hover {
+  transform: translateY(-5px);
+}
+
+.office-photos img,
+.news-grid img,
+.endorsements img {
+  transition: transform 420ms var(--ease-out), filter 300ms ease;
+}
+
+.news-grid img {
+  height: auto;
+}
+
+.office-photos figure:hover img,
+.news-grid article:hover img,
+.endorsements:hover img {
+  transform: scale(1.015);
+  filter: saturate(1.04);
+}
+
+.video-ratio iframe {
+  animation: media-fade 360ms var(--ease-out) both;
+}
+
+.appointment-card,
+dialog {
+  transition: box-shadow var(--motion-base) ease, transform var(--motion-base) var(--ease-out);
+}
+
+.appointment-card:focus-within {
+  box-shadow: 0 18px 45px rgba(4, 18, 32, .22);
+  transform: translateY(-3px);
+}
+
+dialog[open] {
+  animation: dialog-arrive 260ms var(--ease-out) both;
+}
+
+details[open] > div {
+  animation: details-arrive 220ms var(--ease-out) both;
+}
+
+@keyframes cover-arrive {
+  from { opacity: .78; transform: scale(1.035); }
+  to { opacity: .88; transform: scale(1); }
+}
+
+@keyframes header-arrive {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes media-fade {
+  from { opacity: 0; transform: scale(.992); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dialog-arrive {
+  from { opacity: 0; transform: translateY(12px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes details-arrive {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .cover-photo { height: 360px; }
+  .profile-card { margin-top: -42px; }
+}
+
+@media (max-width: 620px) {
+  .cover-photo { height: 285px; }
+  .cover-photo img { object-position: 46% 50%; }
+  .profile-card { margin-top: -28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .site-header,
+  .cover-photo img,
+  .video-ratio iframe,
+  dialog[open],
+  details[open] > div {
+    animation: none;
+  }
+
+  .button:hover,
+  .text-button:hover,
+  .contact-links a:hover,
+  .contact-links button:hover,
+  .office-photos figure:hover,
+  .news-grid article:hover,
+  .endorsements:hover,
+  .office-photos figure:hover img,
+  .news-grid article:hover img,
+  .endorsements:hover img,
+  .appointment-card:focus-within {
+    transform: none;
+  }
 }
