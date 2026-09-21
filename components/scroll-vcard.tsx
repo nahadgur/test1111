@@ -86,12 +86,13 @@ export function ScrollVcard() {
             </header>
 
             <section className="hero-panel" aria-hidden={!heroIsActive}>
+              <div className="hero-grid" aria-hidden="true" />
               <div className="hero-media">
-                <Image className="hero-photo" src="/assets/noel-profile.png" alt="Noel N. Cobangbang" fill priority sizes="(max-width: 640px) 100vw, 540px" />
-                <div className="hero-shade" aria-hidden="true" />
+                <div className="portrait-halo" aria-hidden="true" />
+                <Image className="hero-photo" src="/assets/noel-cutout.png" alt="Noel N. Cobangbang" fill priority sizes="(max-width: 640px) 82vw, 430px" />
               </div>
               <div className="hero-content">
-                <p className="role">AYS Neopreneur</p>
+                <p className="role"><span />AYS Neopreneur</p>
                 <h1>Noel N. Cobangbang</h1>
                 <p className="location">Philippines&nbsp;&nbsp;·&nbsp;&nbsp;Business &amp; Technology</p>
                 <div className="primary-actions">
@@ -106,7 +107,7 @@ export function ScrollVcard() {
 
             <section className="projects-panel" aria-labelledby="sales-kit-title" aria-hidden={heroIsActive}>
               <div className="profile-strip">
-                <Image src="/assets/noel-profile.png" alt="" width={52} height={52} />
+                <Image src="/assets/noel-cutout.png" alt="" width={52} height={52} />
                 <div><strong>Noel N. Cobangbang</strong><span>AYS Neopreneur</span></div>
               </div>
 
