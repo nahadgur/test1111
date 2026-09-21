@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { displayName, type ProfileData } from "@/components/card-data";
+import { downloadVCard } from "@/components/vcard-utils";
 
 function DownloadIcon() {
   return (
@@ -38,29 +40,11 @@ function useToast() {
   return { message, show };
 }
 
-export function SaveContactButton() {
+export function SaveContactButton({ profile }: { profile: ProfileData }) {
   const { message, show } = useToast();
 
   function saveContact() {
-    const vcard = [
-      "BEGIN:VCARD",
-      "VERSION:3.0",
-      "N:Cobangbang;Noel;N.;;",
-      "FN:Noel N. Cobangbang",
-      "TITLE:AYS Neopreneur",
-      "URL:https://test1111-tan.vercel.app/",
-      "X-SOCIALPROFILE;TYPE=facebook:https://www.facebook.com/noel.cobangbang.7",
-      "NOTE:FAI Sales Kit: https://linktr.ee/FAISalesKit2026",
-      "END:VCARD",
-    ].join("\r\n");
-    const url = URL.createObjectURL(new Blob([vcard], { type: "text/vcard;charset=utf-8" }));
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "noel-cobangbang.vcf";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+    downloadVCard(profile);
     show("Contact saved");
   }
 
@@ -75,13 +59,13 @@ export function SaveContactButton() {
   );
 }
 
-export function CopyPageLinkButton() {
+export function CopyPageLinkButton({ profile }: { profile: ProfileData }) {
   const { message, show } = useToast();
 
   async function sharePage() {
     try {
       if (navigator.share) {
-        await navigator.share({ title: "Noel N. Cobangbang", url: window.location.href });
+        await navigator.share({ title: displayName(profile), url: window.location.href });
         return;
       }
       await navigator.clipboard.writeText(window.location.href);

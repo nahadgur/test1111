@@ -1,10 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import type { ImageLoaderProps } from "next/image";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { BrokerContact } from "@/components/broker-contact";
+import { defaultCardData, displayName, type CardData } from "@/components/card-data";
 import { CopyPageLinkButton, SaveContactButton } from "@/components/profile-actions";
-import { propertyCards as properties } from "@/components/property-cards";
+
+function passthroughLoader({ src }: ImageLoaderProps) {
+  return src;
+}
+
+function imageProps(src: string) {
+  return /^https?:\/\//i.test(src) ? { loader: passthroughLoader, unoptimized: true } : {};
+}
 
 function ArrowIcon() {
   return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 18 18 6M9 6h9v9" /></svg>;
@@ -14,12 +23,14 @@ function FacebookIcon() {
   return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 8.2V6.8c0-.7.5-.9 1-.9h2.8V2.1L14.5 2C11.2 2 9 4 9 7.3v.9H6v4.3h3V22h4.5v-9.5h3.3l.6-4.3H14Z" /></svg>;
 }
 
-export function ScrollVcard() {
+export function ScrollVcard({ data = defaultCardData }: { data?: CardData }) {
   const storyRef = useRef<HTMLElement>(null);
   const stickyFrameRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const gestureStartYRef = useRef<number | null>(null);
   const [activeStep, setActiveStep] = useState(0);
+  const { profile, support, properties } = data;
+  const name = displayName(profile);
 
   useEffect(() => {
     const stickyFrame = stickyFrameRef.current;
@@ -110,7 +121,7 @@ export function ScrollVcard() {
       stickyFrame.removeEventListener("pointercancel", handlePointerCancel);
       if (animationFrameRef.current !== null) window.cancelAnimationFrame(animationFrameRef.current);
     };
-  }, []);
+  }, [properties.length]);
 
   const propertyStep = Math.max(0, activeStep - 1);
   const heroIsActive = activeStep === 0;
@@ -120,30 +131,31 @@ export function ScrollVcard() {
       <section
         className="scroll-story"
         ref={storyRef}
-        aria-label="Noel Cobangbang digital business card"
+        aria-label={`${name} digital business card`}
+        style={{ "--story-height": `${Math.max(140, 120 + properties.length * 20)}vh` } as CSSProperties}
       >
         <div className="sticky-frame" ref={stickyFrameRef}>
           <article className={`vcard ${heroIsActive ? "show-profile" : "show-projects"}`}>
             <header className="persistent-header">
-              <BrokerContact />
-              <CopyPageLinkButton />
+              <BrokerContact support={support} />
+              <CopyPageLinkButton profile={profile} />
             </header>
 
             <section className="hero-panel" aria-hidden={!heroIsActive}>
               <div className="hero-grid" aria-hidden="true" />
               <div className="hero-media">
                 <div className="portrait-halo" aria-hidden="true" />
-                <Image className="hero-photo" src="/assets/noel-cutout.png" alt="Noel N. Cobangbang" fill priority sizes="(max-width: 640px) 82vw, 430px" />
+                <Image className="hero-photo" src={profile.image} alt={name} fill priority sizes="(max-width: 640px) 82vw, 430px" {...imageProps(profile.image)} />
               </div>
               <div className="hero-content">
-                <p className="role"><span />AYS Neopreneur</p>
-                <h1>Noel N. Cobangbang</h1>
-                <p className="location">Philippines&nbsp;&nbsp;·&nbsp;&nbsp;Business &amp; Technology</p>
+                <p className="role"><span />{profile.role}</p>
+                <h1>{name}</h1>
+                <p className="location">{profile.location}</p>
                 <div className="primary-actions">
-                  <SaveContactButton />
-                  <a className="action-button action-secondary" href="https://www.facebook.com/noel.cobangbang.7" target="_blank" rel="noopener noreferrer" tabIndex={heroIsActive ? 0 : -1}>
+                  <SaveContactButton profile={profile} />
+                  {profile.facebook ? <a className="action-button action-secondary" href={profile.facebook} target="_blank" rel="noopener noreferrer" tabIndex={heroIsActive ? 0 : -1}>
                     <FacebookIcon />Facebook
-                  </a>
+                  </a> : profile.website ? <a className="action-button action-secondary" href={profile.website} target="_blank" rel="noopener noreferrer" tabIndex={heroIsActive ? 0 : -1}><ArrowIcon />Website</a> : null}
                 </div>
                 <div className="scroll-cue" aria-hidden="true">
                   <span><span className="mobile-copy">Swipe to explore</span><span className="desktop-copy">Scroll to explore</span></span><i />
@@ -153,13 +165,13 @@ export function ScrollVcard() {
 
             <section className="projects-panel" aria-labelledby="sales-kit-title" aria-hidden={heroIsActive}>
               <div className="profile-strip">
-                <Image src="/assets/noel-cutout.png" alt="" width={52} height={52} />
-                <div><strong>Noel N. Cobangbang</strong><span>AYS Neopreneur</span></div>
+                <Image src={profile.image} alt="" width={52} height={52} {...imageProps(profile.image)} />
+                <div><strong>{name}</strong><span>{profile.role}</span></div>
               </div>
 
               <div className="projects-heading">
-                <p>Property portfolio</p>
-                <h2 id="sales-kit-title">Find the right<br />Filinvest property.</h2>
+                <p>{data.portfolioLabel}</p>
+                <h2 id="sales-kit-title">{data.portfolioTitle}</h2>
               </div>
 
               <div className="property-stage" aria-live="polite">
@@ -167,7 +179,7 @@ export function ScrollVcard() {
                   const isActive = !heroIsActive && index === propertyStep;
                   return (
                     <a className={`property-card ${isActive ? "is-active" : ""}`} href={property.href} target="_blank" rel="noopener noreferrer" key={property.name} aria-hidden={!isActive} tabIndex={isActive ? 0 : -1}>
-                      <Image className="property-card-image" src={property.image} alt="" fill sizes="(max-width: 599px) 100vw, 30rem" />
+                      <Image className="property-card-image" src={property.image} alt="" fill sizes="(max-width: 599px) 100vw, 30rem" {...imageProps(property.image)} />
                       <span className="property-type">{property.type}</span>
                       <strong>{property.name}</strong>
                       <span className="property-action">View sales materials<span className="arrow"><ArrowIcon /></span></span>
@@ -176,7 +188,7 @@ export function ScrollVcard() {
                 })}
               </div>
 
-              <div className="progress-track" aria-hidden="true">
+              <div className="progress-track" style={{ gridTemplateColumns: `repeat(${properties.length}, 1fr)` }} aria-hidden="true">
                 {properties.map((property, index) => <span className={index <= propertyStep ? "is-complete" : ""} key={property.name} />)}
               </div>
               <p className="scroll-direction">

@@ -1,5 +1,6 @@
 import { ScrollVcard } from "@/components/scroll-vcard";
+import { defaultCardData } from "@/components/card-data";
 
 export default function Home() {
-  return <ScrollVcard />;
+  return <ScrollVcard data={defaultCardData} />;
 }

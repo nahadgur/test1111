@@ -1,14 +1,16 @@
-export function BrokerContact() {
+import type { SupportData } from "@/components/card-data";
+
+export function BrokerContact({ support }: { support: SupportData }) {
+  if (!support.name && !support.phone && !support.email) return <span />;
+
   return (
     <details className="broker-contact">
       <summary>Broker support</summary>
       <div className="broker-contact-card">
-        <strong>Lianne Manongsong</strong>
-        <span>Broker Sales Associate</span>
-        <a href="tel:+639157453449">09157453449</a>
-        <a href="mailto:julie.manongsong@filinvestcity.com">
-          julie.manongsong@filinvestcity.com
-        </a>
+        <strong>{support.name}</strong>
+        <span>{support.title}</span>
+        {support.phone ? <a href={`tel:${support.phone.replace(/[^+\d]/g, "")}`}>{support.phone}</a> : null}
+        {support.email ? <a href={`mailto:${support.email}`}>{support.email}</a> : null}
       </div>
     </details>
   );
