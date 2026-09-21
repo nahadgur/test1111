@@ -30,13 +30,18 @@ export function ScrollVcard() {
   const storyRef = useRef<HTMLElement>(null);
   const stickyFrameRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const gestureStartYRef = useRef<number | null>(null);
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
+    const stickyFrame = stickyFrameRef.current;
+    if (!stickyFrame) return;
+
     const update = () => {
       const story = storyRef.current;
-      const stickyFrame = stickyFrameRef.current;
-      if (!story || !stickyFrame) return;
+      if (!story) return;
+
+      if (window.matchMedia("(max-width: 599px)").matches) return;
 
       const rect = story.getBoundingClientRect();
       const travel = Math.max(story.offsetHeight - stickyFrame.offsetHeight, 1);
@@ -65,12 +70,56 @@ export function ScrollVcard() {
       });
     };
 
+    const moveMobileStep = (direction: 1 | -1) => {
+      setActiveStep((currentStep) => Math.min(properties.length, Math.max(0, currentStep + direction)));
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!window.matchMedia("(max-width: 599px)").matches || !event.isPrimary) return;
+      gestureStartYRef.current = event.clientY;
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const startY = gestureStartYRef.current;
+      if (startY !== null && Math.abs(startY - event.clientY) > 8) {
+        if (!stickyFrame.hasPointerCapture(event.pointerId)) stickyFrame.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      }
+    };
+
+    const handlePointerUp = (event: PointerEvent) => {
+      const startY = gestureStartYRef.current;
+      gestureStartYRef.current = null;
+      if (stickyFrame.hasPointerCapture(event.pointerId)) stickyFrame.releasePointerCapture(event.pointerId);
+      if (startY === null || Math.abs(startY - event.clientY) < 36) return;
+      event.preventDefault();
+      moveMobileStep(startY > event.clientY ? 1 : -1);
+    };
+
+    const handlePointerCancel = () => { gestureStartYRef.current = null; };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!window.matchMedia("(max-width: 599px)").matches) return;
+      if (event.key === "ArrowDown" || event.key === "PageDown") moveMobileStep(1);
+      if (event.key === "ArrowUp" || event.key === "PageUp") moveMobileStep(-1);
+    };
+
     update();
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("keydown", handleKeyDown);
+    stickyFrame.addEventListener("pointerdown", handlePointerDown);
+    stickyFrame.addEventListener("pointermove", handlePointerMove);
+    stickyFrame.addEventListener("pointerup", handlePointerUp);
+    stickyFrame.addEventListener("pointercancel", handlePointerCancel);
     return () => {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("keydown", handleKeyDown);
+      stickyFrame.removeEventListener("pointerdown", handlePointerDown);
+      stickyFrame.removeEventListener("pointermove", handlePointerMove);
+      stickyFrame.removeEventListener("pointerup", handlePointerUp);
+      stickyFrame.removeEventListener("pointercancel", handlePointerCancel);
       if (animationFrameRef.current !== null) window.cancelAnimationFrame(animationFrameRef.current);
     };
   }, []);
@@ -107,7 +156,9 @@ export function ScrollVcard() {
                     <FacebookIcon />Facebook
                   </a>
                 </div>
-                <div className="scroll-cue" aria-hidden="true"><span>Scroll to explore</span><i /></div>
+                <div className="scroll-cue" aria-hidden="true">
+                  <span><span className="mobile-copy">Swipe to explore</span><span className="desktop-copy">Scroll to explore</span></span><i />
+                </div>
               </div>
             </section>
 
@@ -139,7 +190,7 @@ export function ScrollVcard() {
                 {properties.map((property, index) => <span className={index <= propertyStep ? "is-complete" : ""} key={property.name} />)}
               </div>
               <p className="scroll-direction">
-                {propertyStep === properties.length - 1 ? "Portfolio complete" : "Keep scrolling"}
+                {propertyStep === properties.length - 1 ? "Portfolio complete" : <><span className="mobile-copy">Swipe to continue</span><span className="desktop-copy">Keep scrolling</span></>}
               </p>
             </section>
           </article>
