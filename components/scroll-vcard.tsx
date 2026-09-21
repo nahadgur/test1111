@@ -82,7 +82,6 @@ export function ScrollVcard() {
         <div className="sticky-frame">
           <article className={`vcard ${heroIsActive ? "show-profile" : "show-projects"}`}>
             <header className="persistent-header">
-              <div className="brand-lockup"><span className="brand-mark" aria-hidden="true" /><span>FAI Sales Kit</span></div>
               <CopyPageLinkButton />
             </header>
 

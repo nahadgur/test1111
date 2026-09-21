@@ -23,12 +23,7 @@ a { color: inherit; text-decoration: none; }
 .sticky-frame { position: sticky; top: 0; width: 100%; height: 100svh; overflow: hidden; }
 .vcard { position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--white); background: var(--ink); isolation: isolate; }
 
-.persistent-header { position: absolute; z-index: 20; top: 0; left: 0; display: flex; width: 100%; align-items: center; justify-content: space-between; padding: max(1.15rem, env(safe-area-inset-top)) 1.25rem 0; }
-.brand-lockup { display: flex; align-items: center; gap: .65rem; font-size: .75rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
-.brand-mark { position: relative; display: block; width: 1.75rem; height: 1.75rem; border: 1px solid rgba(255,255,255,.7); border-radius: .2rem; }
-.brand-mark::before, .brand-mark::after { position: absolute; left: .42rem; width: .78rem; height: 2px; background: var(--white); content: ""; }
-.brand-mark::before { top: .55rem; box-shadow: 0 .35rem 0 var(--white); }
-.brand-mark::after { top: .55rem; width: 2px; height: .72rem; }
+.persistent-header { position: absolute; z-index: 20; top: 0; left: 0; display: flex; width: 100%; align-items: center; justify-content: flex-end; padding: max(1.15rem, env(safe-area-inset-top)) 1.25rem 0; }
 
 .icon-button { display: grid; width: 2.75rem; height: 2.75rem; padding: 0; place-items: center; color: var(--white); border: 1px solid rgba(255,255,255,.28); border-radius: .35rem; background: rgba(5,18,36,.28); backdrop-filter: blur(14px); cursor: pointer; transition: background-color .2s ease, transform .2s var(--ease); }
 .icon-button svg { width: 1.1rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
@@ -85,9 +80,6 @@ h1 { max-width: 13ch; margin: 0; font-size: clamp(2.25rem, 10vw, 3.45rem); font-
 .show-projects .hero-photo { transform: scale(1.04); filter: saturate(.65) contrast(1.03); }
 .show-projects .projects-panel { opacity: 1; visibility: visible; transform: translateY(0); }
 .show-projects .persistent-header { color: var(--ink); }
-.show-projects .brand-mark { border-color: var(--ink); }
-.show-projects .brand-mark::before { background: var(--ink); box-shadow: 0 .35rem 0 var(--ink); }
-.show-projects .brand-mark::after { background: var(--ink); }
 .show-projects .icon-button { color: var(--ink); border-color: var(--line); background: rgba(255,255,255,.72); }
 
 .toast { position: fixed; z-index: 50; left: 50%; bottom: max(1.5rem, env(safe-area-inset-bottom)); padding: .72rem 1rem; color: var(--white); border-radius: .3rem; background: rgba(4,16,31,.94); box-shadow: 0 12px 35px rgba(0,0,0,.24); font-size: .78rem; opacity: 0; pointer-events: none; transform: translate(-50%, 1rem); transition: opacity .2s ease, transform .3s var(--ease); white-space: nowrap; }
