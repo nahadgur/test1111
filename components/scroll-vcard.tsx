@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { BrokerContact } from "@/components/broker-contact";
 import { CopyPageLinkButton, SaveContactButton } from "@/components/profile-actions";
 
 const properties = [
@@ -137,6 +138,7 @@ export function ScrollVcard() {
         <div className="sticky-frame" ref={stickyFrameRef}>
           <article className={`vcard ${heroIsActive ? "show-profile" : "show-projects"}`}>
             <header className="persistent-header">
+              <BrokerContact />
               <CopyPageLinkButton />
             </header>
 

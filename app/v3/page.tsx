@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BrokerContact } from "@/components/broker-contact";
 import { ImageStackCarousel } from "@/components/ui/image-stack-carousel";
 import { propertyCards } from "@/components/property-cards";
 
@@ -10,7 +11,7 @@ export default function V3Page() {
     <main className="variant-page v3-page">
       <header className="variant-header">
         <Link href="/" aria-label="Back to Noel Cobangbang digital card"><span>NC</span><div><strong>Noel N. Cobangbang</strong><small>FAI Sales Kit 2026</small></div></Link>
-        <p>Swipe to browse</p>
+        <BrokerContact />
       </header>
       <div className="variant-heading"><p>Property portfolio</p><h1>Find your next address.</h1></div>
       <ImageStackCarousel cards={propertyCards} />

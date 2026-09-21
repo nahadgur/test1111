@@ -24,7 +24,18 @@ a { color: inherit; text-decoration: none; }
 .sticky-frame { position: sticky; top: 0; width: 100%; height: 100svh; overflow: hidden; }
 .vcard { position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--white); background: var(--ink); isolation: isolate; }
 
-.persistent-header { position: absolute; z-index: 20; top: 0; left: 0; display: flex; width: 100%; align-items: center; justify-content: flex-end; padding: max(1.15rem, env(safe-area-inset-top)) 1.25rem 0; }
+.persistent-header { position: absolute; z-index: 20; top: 0; left: 0; display: flex; width: 100%; align-items: center; justify-content: space-between; padding: max(1.15rem, env(safe-area-inset-top)) 1.25rem 0; }
+.broker-contact { position: relative; z-index: 40; }
+.broker-contact > summary { display: flex; min-height: 2.25rem; list-style: none; align-items: center; gap: .48rem; padding: .55rem .7rem; border: 1px solid rgba(255,255,255,.18); border-radius: .35rem; color: rgba(255,255,255,.82); background: rgba(5,18,36,.24); backdrop-filter: blur(14px); cursor: pointer; font-size: .58rem; font-weight: 760; letter-spacing: .09em; text-transform: uppercase; transition: color .2s ease, border-color .2s ease, background .2s ease; }
+.broker-contact > summary::-webkit-details-marker { display: none; }
+.broker-contact > summary::before { width: .38rem; height: .38rem; border-radius: 50%; background: var(--aqua); box-shadow: 0 0 0 .2rem rgba(20,167,161,.13); content: ""; }
+.broker-contact[open] > summary { color: #fff; border-color: rgba(20,167,161,.65); background: rgba(5,18,36,.74); }
+.broker-contact-card { position: absolute; top: calc(100% + .55rem); left: 0; width: min(18rem,calc(100vw - 2.5rem)); padding: .95rem 1rem 1rem; border: 1px solid rgba(255,255,255,.13); border-radius: .5rem; color: #fff; background: rgba(4,16,31,.97); box-shadow: 0 1.2rem 3rem rgba(0,0,0,.24); backdrop-filter: blur(18px); }
+.broker-contact-card strong, .broker-contact-card span, .broker-contact-card a { display: block; }
+.broker-contact-card strong { font-size: .86rem; letter-spacing: -.01em; }
+.broker-contact-card span { margin: .18rem 0 .8rem; color: rgba(255,255,255,.55); font-size: .68rem; }
+.broker-contact-card a { width: fit-content; margin-top: .35rem; color: rgba(255,255,255,.82); font-size: .71rem; text-decoration: none; }
+.broker-contact-card a:hover { color: var(--aqua); }
 
 .icon-button { display: grid; width: 2.75rem; height: 2.75rem; padding: 0; place-items: center; color: var(--white); border: 1px solid rgba(255,255,255,.28); border-radius: .35rem; background: rgba(5,18,36,.28); backdrop-filter: blur(14px); cursor: pointer; transition: background-color .2s ease, transform .2s var(--ease); }
 .icon-button svg { width: 1.1rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
@@ -87,6 +98,8 @@ h1 { max-width: 13ch; margin: 0; font-size: clamp(2.25rem, 10vw, 3.45rem); font-
 .show-projects .hero-photo { transform: scale(1.04); filter: saturate(.65) contrast(1.03); }
 .show-projects .projects-panel { opacity: 1; visibility: visible; transform: translateY(0); }
 .show-projects .persistent-header { color: var(--ink); }
+.show-projects .broker-contact > summary { color: rgba(7,26,48,.72); border-color: var(--line); background: rgba(255,255,255,.74); }
+.show-projects .broker-contact[open] > summary { color: var(--ink); border-color: rgba(20,167,161,.5); background: rgba(255,255,255,.94); }
 .show-projects .icon-button { color: var(--ink); border-color: var(--line); background: rgba(255,255,255,.72); }
 
 .toast { position: fixed; z-index: 50; left: 50%; bottom: max(1.5rem, env(safe-area-inset-bottom)); padding: .72rem 1rem; color: var(--white); border-radius: .3rem; background: rgba(4,16,31,.94); box-shadow: 0 12px 35px rgba(0,0,0,.24); font-size: .78rem; opacity: 0; pointer-events: none; transform: translate(-50%, 1rem); transition: opacity .2s ease, transform .3s var(--ease); white-space: nowrap; }
@@ -155,6 +168,7 @@ h1 { max-width: 13ch; margin: 0; font-size: clamp(2.25rem, 10vw, 3.45rem); font-
 .variant-header strong { font-size: .75rem; letter-spacing: .02em; }
 .variant-header small { margin-top: .12rem; color: rgba(255,255,255,.54); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; }
 .variant-header > p { margin: 0; color: rgba(255,255,255,.58); font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.variant-header .broker-contact-card { right: 0; left: auto; }
 .variant-heading { padding: clamp(1.2rem,3.5vh,2.4rem) 1.2rem .5rem; text-align: center; }
 .variant-heading p { margin: 0 0 .45rem; color: var(--aqua); font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .variant-heading h1 { max-width: none; margin: 0; font-size: clamp(2rem,8.6vw,4rem); font-weight: 690; letter-spacing: -.055em; line-height: .95; }
