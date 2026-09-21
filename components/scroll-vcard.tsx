@@ -4,20 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BrokerContact } from "@/components/broker-contact";
 import { CopyPageLinkButton, SaveContactButton } from "@/components/profile-actions";
-
-const properties = [
-  { name: "Botanika Nature Residences", href: "https://linktr.ee/BotanikaNatureResidences2026", type: "Luxury residences" },
-  { name: "1001 Parkway Residences", href: "https://linktr.ee/1001ParkwayResidences", type: "High-rise residences" },
-  { name: "Golf Ridge Private Estate", href: "https://linktr.ee/GolfRidgePrivateEstate2026", type: "Private estate" },
-  { name: "Brentville International Community", href: "https://linktr.ee/BrentvilleInternational2026", type: "Residential community" },
-  { name: "Parkway Corporate Center", href: "https://linktr.ee/ParkwayCorporateCenter2026", type: "Office spaces" },
-  { name: "The Levels", href: "https://linktr.ee/TheLevels2026", type: "Condominiums" },
-  { name: "Studio N Alabang", href: "https://linktr.ee/StudioNAlabang2026", type: "Studio residences" },
-  { name: "Celestia at Timberland Heights", href: "https://linktr.ee/CelestiaTimberlandHeights2026", type: "Highland residences" },
-  { name: "The Glades at Timberland Heights", href: "https://linktr.ee/TheGlades", type: "Residential lots" },
-  { name: "Filinvest Commercial Lots", href: "https://linktr.ee/FAICommercialLots", type: "Commercial lots" },
-  { name: "Filinvest Livable Condos", href: "https://linktr.ee/FilinvestLivableCondosRFOs", type: "Ready for occupancy" },
-];
+import { propertyCards as properties } from "@/components/property-cards";
 
 function ArrowIcon() {
   return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 18 18 6M9 6h9v9" /></svg>;
@@ -180,6 +167,7 @@ export function ScrollVcard() {
                   const isActive = !heroIsActive && index === propertyStep;
                   return (
                     <a className={`property-card ${isActive ? "is-active" : ""}`} href={property.href} target="_blank" rel="noopener noreferrer" key={property.name} aria-hidden={!isActive} tabIndex={isActive ? 0 : -1}>
+                      <Image className="property-card-image" src={property.image} alt="" fill sizes="(max-width: 599px) 100vw, 30rem" />
                       <span className="property-type">{property.type}</span>
                       <strong>{property.name}</strong>
                       <span className="property-action">View sales materials<span className="arrow"><ArrowIcon /></span></span>
