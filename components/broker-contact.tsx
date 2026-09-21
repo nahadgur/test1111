@@ -1,11 +1,11 @@
 import type { SupportData } from "@/components/card-data";
 
-export function BrokerContact({ support }: { support: SupportData }) {
+export function BrokerContact({ support, label = "Broker support" }: { support: SupportData; label?: string }) {
   if (!support.name && !support.phone && !support.email) return <span />;
 
   return (
     <details className="broker-contact">
-      <summary>Broker support</summary>
+      <summary>{label}</summary>
       <div className="broker-contact-card">
         <strong>{support.name}</strong>
         <span>{support.title}</span>

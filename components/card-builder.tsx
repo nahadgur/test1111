@@ -91,7 +91,7 @@ export function CardBuilder() {
   return (
     <main className="builder-page">
       <header className="builder-topbar">
-        <a href="/" aria-label="Return to the original digital card"><span>NC</span><strong>FAI Card Builder</strong></a>
+        <a href="/" aria-label="Return to Lianne Manongsong's digital card"><span>LM</span><strong>FAI Card Builder</strong></a>
         <div><button type="button" className="builder-button secondary" onClick={saveDraft}>Save draft</button><button type="button" className="builder-button primary" onClick={preview}>Preview card</button></div>
       </header>
 
@@ -123,7 +123,7 @@ export function CardBuilder() {
           </fieldset>
 
           <fieldset>
-            <legend>Broker support</legend>
+            <legend>Header contact</legend>
             <div className="builder-grid two">
               <Field label="Name" value={data.support.name} onChange={(value) => updateSupport("name", value)} />
               <Field label="Title" value={data.support.title} onChange={(value) => updateSupport("title", value)} />
@@ -170,7 +170,7 @@ export function CardBuilder() {
           <dl><div><dt>Properties</dt><dd>{data.properties.length}</dd></div><div><dt>Contact file</dt><dd>.vcf</dd></div><div><dt>Layout</dt><dd>Mobile first</dd></div></dl>
           <button type="button" className="builder-button primary full" onClick={copyLink}>Copy shareable link</button>
           <button type="button" className="builder-button secondary full" onClick={loadDraft}>Load saved draft</button>
-          <button type="button" className="builder-button secondary full" onClick={() => { setData(cloneDefaults()); setStatus("Original details restored"); }}>Restore original data</button>
+          <button type="button" className="builder-button secondary full" onClick={() => { setData(cloneDefaults()); setStatus("Default details restored"); }}>Restore default data</button>
           <p className="builder-note">The link contains the card data. Save the draft if you also want an editable copy on this device.</p>
           <div className="builder-status" role="status" aria-live="polite">{status}</div>
         </aside>

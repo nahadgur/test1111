@@ -31,17 +31,17 @@ export interface CardData {
 
 export const defaultCardData: CardData = {
   profile: {
-    firstName: "Noel",
-    middleName: "N.",
-    lastName: "Cobangbang",
-    role: "AYS Neopreneur",
+    firstName: "Lianne",
+    middleName: "",
+    lastName: "Manongsong",
+    role: "Broker Sales Associate",
     company: "Filinvest Alabang, Inc.",
-    location: "Philippines · Business & Technology",
-    phone: "",
-    email: "",
+    location: "Filinvest Alabang, Inc.",
+    phone: "+639157453449",
+    email: "julie.manongsong@filinvestcity.com",
     website: "https://test1111-tan.vercel.app/",
-    facebook: "https://www.facebook.com/noel.cobangbang.7",
-    image: "/assets/noel-cutout.png",
+    facebook: "https://www.facebook.com/loveliannne",
+    image: "/assets/lianne-cutout.png",
   },
   support: {
     name: "Lianne Manongsong",

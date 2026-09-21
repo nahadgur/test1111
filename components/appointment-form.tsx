@@ -67,7 +67,7 @@ export function AppointmentForm() {
         <p className="section-label">Appointment review</p>
         <h2>Your request</h2>
         <div id="appointment-summary"><strong>{summary.name}</strong><span>{summary.detail}</span></div>
-        <p>No information has been sent. Contact Noel to confirm the appointment.</p>
+        <p>No information has been sent. Contact Lianne to confirm the appointment.</p>
         <button className="button" type="button" onClick={() => dialogRef.current?.close()}>Close</button>
       </dialog>
     </>

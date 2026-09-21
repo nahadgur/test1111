@@ -52,12 +52,14 @@ document.querySelector("#copy-link").addEventListener("click", async () => {
 
 document.querySelector("#save-contact").addEventListener("click", () => {
   const vcard = [
-    "BEGIN:VCARD", "VERSION:3.0", "FN:Noel N. Cobangbang", "TITLE:AYS Neopreneur",
-    "URL:https://1neoai.com/aysnoelcobangbang", "END:VCARD"
+    "BEGIN:VCARD", "VERSION:3.0", "N:Manongsong;Lianne;;;", "FN:Lianne Manongsong",
+    "ORG:Filinvest Alabang, Inc.", "TITLE:Broker Sales Associate", "TEL;TYPE=CELL,VOICE:+639157453449",
+    "EMAIL;TYPE=INTERNET,WORK:julie.manongsong@filinvestcity.com", "URL:https://test1111-tan.vercel.app/",
+    "X-SOCIALPROFILE;TYPE=facebook:https://www.facebook.com/loveliannne", "END:VCARD"
   ].join("\r\n");
   const link = document.createElement("a");
   link.href = URL.createObjectURL(new Blob([vcard], { type: "text/vcard" }));
-  link.download = "noel-cobangbang.vcf";
+  link.download = "lianne-manongsong.vcf";
   link.click();
   URL.revokeObjectURL(link.href);
   showToast("Contact card downloaded");

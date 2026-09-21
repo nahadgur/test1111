@@ -31,6 +31,9 @@ export function ScrollVcard({ data = defaultCardData }: { data?: CardData }) {
   const [activeStep, setActiveStep] = useState(0);
   const { profile, support, properties } = data;
   const name = displayName(profile);
+  const contactLabel = support.name.trim().toLocaleLowerCase() === name.trim().toLocaleLowerCase()
+    ? "Contact details"
+    : "Broker support";
 
   useEffect(() => {
     const stickyFrame = stickyFrameRef.current;
@@ -137,7 +140,7 @@ export function ScrollVcard({ data = defaultCardData }: { data?: CardData }) {
         <div className="sticky-frame" ref={stickyFrameRef}>
           <article className={`vcard ${heroIsActive ? "show-profile" : "show-projects"}`}>
             <header className="persistent-header">
-              <BrokerContact support={support} />
+              <BrokerContact support={support} label={contactLabel} />
               <CopyPageLinkButton profile={profile} />
             </header>
 

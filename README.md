@@ -1,6 +1,6 @@
-# Noel N. Cobangbang
+# Lianne Manongsong
 
-Next.js profile site for Noel N. Cobangbang, an AYS Neopreneur.
+Next.js digital business card for Lianne Manongsong, Broker Sales Associate.
 
 ## Local development
 
