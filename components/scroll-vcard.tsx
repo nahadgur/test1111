@@ -37,8 +37,17 @@ export function ScrollVcard() {
       if (!story) return;
       const rect = story.getBoundingClientRect();
       const travel = Math.max(story.offsetHeight - window.innerHeight, 1);
-      const progress = Math.min(1, Math.max(0, -rect.top / travel));
-      setActiveStep(Math.round(progress * properties.length));
+      const scrolled = Math.min(travel, Math.max(0, -rect.top));
+      const heroHold = window.innerHeight * .65;
+
+      if (scrolled < heroHold) {
+        setActiveStep(0);
+        return;
+      }
+
+      const propertyTravel = Math.max(travel - heroHold, 1);
+      const propertyProgress = Math.min(1, (scrolled - heroHold) / propertyTravel);
+      setActiveStep(1 + Math.round(propertyProgress * (properties.length - 1)));
     };
 
     const scheduleUpdate = () => {
@@ -67,7 +76,7 @@ export function ScrollVcard() {
       <section
         className="scroll-story"
         ref={storyRef}
-        style={{ height: `${(properties.length + 1) * 100}svh` }}
+        style={{ height: "420svh" }}
         aria-label="Noel Cobangbang digital business card"
       >
         <div className="sticky-frame">
@@ -78,8 +87,10 @@ export function ScrollVcard() {
             </header>
 
             <section className="hero-panel" aria-hidden={!heroIsActive}>
-              <Image className="hero-photo" src="/assets/noel-profile.png" alt="Noel N. Cobangbang" fill priority sizes="(max-width: 640px) 100vw, 540px" />
-              <div className="hero-shade" aria-hidden="true" />
+              <div className="hero-media">
+                <Image className="hero-photo" src="/assets/noel-profile.png" alt="Noel N. Cobangbang" fill priority sizes="(max-width: 640px) 100vw, 540px" />
+                <div className="hero-shade" aria-hidden="true" />
+              </div>
               <div className="hero-content">
                 <p className="role">AYS Neopreneur</p>
                 <h1>Noel N. Cobangbang</h1>
