@@ -28,32 +28,39 @@ function FacebookIcon() {
 
 export function ScrollVcard() {
   const storyRef = useRef<HTMLElement>(null);
-  const frameRef = useRef<number | null>(null);
+  const stickyFrameRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const update = () => {
       const story = storyRef.current;
-      if (!story) return;
-      const rect = story.getBoundingClientRect();
-      const travel = Math.max(story.offsetHeight - window.innerHeight, 1);
-      const scrolled = Math.min(travel, Math.max(0, -rect.top));
-      const heroHold = window.innerHeight * .65;
+      const stickyFrame = stickyFrameRef.current;
+      if (!story || !stickyFrame) return;
 
-      if (scrolled < heroHold) {
-        setActiveStep(0);
-        return;
+      const rect = story.getBoundingClientRect();
+      const travel = Math.max(story.offsetHeight - stickyFrame.offsetHeight, 1);
+      const scrolled = Math.min(travel, Math.max(0, -rect.top));
+      const heroScrollShare = Number.parseFloat(
+        window.getComputedStyle(story).getPropertyValue("--hero-scroll-share"),
+      ) || 0.16;
+      const heroHold = travel * heroScrollShare;
+
+      let nextStep = 0;
+
+      if (scrolled >= heroHold) {
+        const propertyTravel = Math.max(travel - heroHold, 1);
+        const propertyProgress = Math.min(1, (scrolled - heroHold) / propertyTravel);
+        nextStep = 1 + Math.round(propertyProgress * (properties.length - 1));
       }
 
-      const propertyTravel = Math.max(travel - heroHold, 1);
-      const propertyProgress = Math.min(1, (scrolled - heroHold) / propertyTravel);
-      setActiveStep(1 + Math.round(propertyProgress * (properties.length - 1)));
+      setActiveStep((currentStep) => currentStep === nextStep ? currentStep : nextStep);
     };
 
     const scheduleUpdate = () => {
-      if (frameRef.current !== null) return;
-      frameRef.current = window.requestAnimationFrame(() => {
-        frameRef.current = null;
+      if (animationFrameRef.current !== null) return;
+      animationFrameRef.current = window.requestAnimationFrame(() => {
+        animationFrameRef.current = null;
         update();
       });
     };
@@ -64,7 +71,7 @@ export function ScrollVcard() {
     return () => {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
-      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+      if (animationFrameRef.current !== null) window.cancelAnimationFrame(animationFrameRef.current);
     };
   }, []);
 
@@ -76,10 +83,9 @@ export function ScrollVcard() {
       <section
         className="scroll-story"
         ref={storyRef}
-        style={{ height: "420svh" }}
         aria-label="Noel Cobangbang digital business card"
       >
-        <div className="sticky-frame">
+        <div className="sticky-frame" ref={stickyFrameRef}>
           <article className={`vcard ${heroIsActive ? "show-profile" : "show-projects"}`}>
             <header className="persistent-header">
               <CopyPageLinkButton />
