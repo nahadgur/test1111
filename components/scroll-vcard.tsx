@@ -23,7 +23,7 @@ function FacebookIcon() {
   return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 8.2V6.8c0-.7.5-.9 1-.9h2.8V2.1L14.5 2C11.2 2 9 4 9 7.3v.9H6v4.3h3V22h4.5v-9.5h3.3l.6-4.3H14Z" /></svg>;
 }
 
-export function ScrollVcard({ data = defaultCardData }: { data?: CardData }) {
+export function ScrollVcard({ data = defaultCardData, contactFileUrl }: { data?: CardData; contactFileUrl?: string }) {
   const storyRef = useRef<HTMLElement>(null);
   const stickyFrameRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -155,7 +155,7 @@ export function ScrollVcard({ data = defaultCardData }: { data?: CardData }) {
                 <h1>{name}</h1>
                 <p className="location">{profile.location}</p>
                 <div className="primary-actions">
-                  <SaveContactButton profile={profile} />
+                  <SaveContactButton profile={profile} downloadUrl={contactFileUrl} />
                   {profile.facebook ? <a className="action-button action-secondary" href={profile.facebook} target="_blank" rel="noopener noreferrer" tabIndex={heroIsActive ? 0 : -1}>
                     <FacebookIcon />Facebook
                   </a> : profile.website ? <a className="action-button action-secondary" href={profile.website} target="_blank" rel="noopener noreferrer" tabIndex={heroIsActive ? 0 : -1}><ArrowIcon />Website</a> : null}

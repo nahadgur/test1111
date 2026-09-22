@@ -23,12 +23,16 @@ export function createVCard(profile: ProfileData) {
   return lines.join("\r\n");
 }
 
+export function vCardFilename(profile: ProfileData) {
+  const filename = `${profile.firstName}-${profile.lastName}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${filename || "contact"}.vcf`;
+}
+
 export function downloadVCard(profile: ProfileData) {
   const blobUrl = URL.createObjectURL(new Blob([createVCard(profile)], { type: "text/vcard;charset=utf-8" }));
   const link = document.createElement("a");
-  const filename = `${profile.firstName}-${profile.lastName}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "contact";
   link.href = blobUrl;
-  link.download = `${filename}.vcf`;
+  link.download = vCardFilename(profile);
   document.body.appendChild(link);
   link.click();
   link.remove();

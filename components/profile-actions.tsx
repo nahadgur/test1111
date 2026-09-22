@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { displayName, type ProfileData } from "@/components/card-data";
-import { downloadVCard } from "@/components/vcard-utils";
+import { createVCard, downloadVCard, vCardFilename } from "@/components/vcard-utils";
 
 function DownloadIcon() {
   return (
@@ -40,12 +40,53 @@ function useToast() {
   return { message, show };
 }
 
-export function SaveContactButton({ profile }: { profile: ProfileData }) {
+export function SaveContactButton({ profile, downloadUrl }: { profile: ProfileData; downloadUrl?: string }) {
   const { message, show } = useToast();
+  const [showBrowserHelp, setShowBrowserHelp] = useState(false);
+  const helpDialogRef = useRef<HTMLDialogElement>(null);
 
-  function saveContact() {
+  useEffect(() => {
+    const dialog = helpDialogRef.current;
+    if (!dialog) return;
+    if (showBrowserHelp && !dialog.open) dialog.showModal();
+    if (!showBrowserHelp && dialog.open) dialog.close();
+  }, [showBrowserHelp]);
+
+  async function saveContact() {
+    const filename = vCardFilename(profile);
+    const file = new File([createVCard(profile)], filename, { type: "text/vcard;charset=utf-8" });
+    const userAgent = navigator.userAgent;
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(userAgent);
+    const isRestrictedInAppBrowser = /FBAN|FBAV|Instagram|Messenger/i.test(userAgent);
+    const canShareFile = isMobile && typeof navigator.share === "function" && typeof navigator.canShare === "function" && navigator.canShare({ files: [file] });
+
+    if (canShareFile) {
+      try {
+        await navigator.share({ files: [file], title: `${displayName(profile)} contact` });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+
+    if (isRestrictedInAppBrowser) {
+      setShowBrowserHelp(true);
+      return;
+    }
+
+    if (downloadUrl) {
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      show("Opening contact card");
+      return;
+    }
+
     downloadVCard(profile);
-    show("Contact saved");
+    show("Contact file downloaded");
   }
 
   return (
@@ -55,6 +96,14 @@ export function SaveContactButton({ profile }: { profile: ProfileData }) {
         Save contact
       </button>
       <div className={`toast ${message ? "show" : ""}`} role="status" aria-live="polite">{message}</div>
+      <dialog className="contact-help-dialog" ref={helpDialogRef} aria-labelledby="contact-help-title" onClose={() => setShowBrowserHelp(false)} onClick={(event) => { if (event.target === event.currentTarget) setShowBrowserHelp(false); }}>
+        <section className="contact-help">
+          <span>Save on your phone</span>
+          <h2 id="contact-help-title">Open this page in your browser</h2>
+          <p>Messenger blocks contact downloads. Tap <strong>•••</strong> above, choose <strong>Open in browser</strong> or <strong>Open in Safari</strong>, then tap Save contact again.</p>
+          <button type="button" autoFocus onClick={() => setShowBrowserHelp(false)}>Got it</button>
+        </section>
+      </dialog>
     </>
   );
 }
